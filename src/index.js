@@ -5,6 +5,62 @@
  * @returns {array} matched terms
  */
 function trieSearch(terms, text, options = {}) {
+  if (options.withIndex) {
+    return new Promise(resolve => {
+      const termSymbol = Symbol('term');
+      const baseTrie = terms.reduce((acc, term) => {
+        const words = term.split(' ');
+        let last = acc;
+        words.forEach(word => {
+          if (last[word]) {
+            last = last[word];
+          } else {
+            last[word] = {};
+            last = last[word];
+          }
+        });
+        last[termSymbol] = term;
+        return acc;
+      }, {});
+      const foundTerms = {};
+      let tries = [baseTrie];
+      const strippedText = text
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+        .replace(/[\r\n]+/g, ' ')
+        .split(' ');
+      strippedText.forEach((word, i) => {
+        const nextTries = [baseTrie];
+        tries.forEach(t => {
+          // Check if term
+          if (t[termSymbol]) {
+            if (!foundTerms[t[termSymbol]]) {
+              foundTerms[t[termSymbol]] = [];
+            }
+            foundTerms[t[termSymbol]].push(i);
+          }
+          const match = t[word];
+          if (match) {
+            nextTries.push(t[word]);
+          }
+        });
+        tries = nextTries;
+      });
+
+      // check last word
+      tries.forEach(t => {
+        // Check if term
+        if (t[termSymbol]) {
+          if (!foundTerms[t[termSymbol]]) {
+            foundTerms[t[termSymbol]] = [];
+          }
+          foundTerms[t[termSymbol]].push(i);
+        }
+      });
+      const termsToReturn = [];
+      Object.keys(foundTerms).forEach(key => termsToReturn.push([key, foundTerms[key]]));
+      resolve(termsToReturn);
+    });
+  }
   if (options.withCounts) {
     return new Promise(resolve => {
       const termSymbol = Symbol('term');

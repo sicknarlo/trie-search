@@ -1,14 +1,10 @@
 {
-  "name": "trie-search",
+  "name": "text-blitz",
   "version": "0.0.1",
   "description": "Lightning fast text search tool",
   "license": "MIT",
   "main": "dist/index.js",
-  "author": {
-    "name": "Nick Sarlo",
-    "email": "nicholas.l.sarlo@gmail.com",
-    "url": "https://github.com/sicknarlo"
-  },
+  "author": "Nick Sarlo <nicholas.l.sarlo@gmail.com> (https://github.com/sicknarlo)",
   "files": [
     "dist",
     "src"
@@ -23,7 +19,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run docs && npm run clean",
     "build": "babel src -d dist",
-    "preversion": "npm run lint && npm test && npm run build",
+    "preversion": "npm test && npm run build",
     "version": "standard-changelog && git add CHANGELOG.md",
     "postpublish": "git push origin master --follow-tags"
   },
@@ -62,5 +58,16 @@
     "prettier": "1.16.4",
     "rimraf": "2.6.3",
     "standard-changelog": "2.0.7"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sicknarlo/trie-search.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sicknarlo/trie-search/issues"
+  },
+  "homepage": "https://github.com/sicknarlo/trie-search#readme"
 }
