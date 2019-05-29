@@ -1,6 +1,6 @@
 {
   "name": "text-blitz",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Lightning fast text search tool",
   "license": "MIT",
   "main": "dist/index.js",
